@@ -40,3 +40,6 @@ Thumbs.db
 # ===== Node (if frontend tools added later) =====
 node_modules/
 dist/
+
+# Ignore tests folder
+tests/
