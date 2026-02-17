@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeRAG — Ask Your Code</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/chat.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="chat-page">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-title">CodeRAG</span>
+      </div>
+    </div>
+
+    <!-- SESSION INFO -->
+    <div class="session-card">
+      <div class="session-label">Active Session</div>
+      <div class="session-id" id="sidebarSessionId">—</div>
+      <div class="session-stats">
+        <div class="session-stat">
+          <span class="sstat-val" id="sidebarFiles">—</span>
+          <span class="sstat-key">Files</span>
+        </div>
+        <div class="session-stat">
+          <span class="sstat-val" id="sidebarChunks">—</span>
+          <span class="sstat-key">Chunks</span>
+        </div>
+        <div class="session-stat">
+          <span class="sstat-val" id="sidebarLang">—</span>
+          <span class="sstat-key">Language</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUGGESTIONS -->
+    <div class="suggestions-label">Suggested Questions</div>
+    <div class="suggestions" id="suggestionList">
+      <button class="suggestion" onclick="askSuggestion(this)">How does this project work?</button>
+      <button class="suggestion" onclick="askSuggestion(this)">What is the main entry point?</button>
+      <button class="suggestion" onclick="askSuggestion(this)">Explain the authentication flow</button>
+      <button class="suggestion" onclick="askSuggestion(this)">What APIs are available?</button>
+      <button class="suggestion" onclick="askSuggestion(this)">How is data stored?</button>
+      <button class="suggestion" onclick="askSuggestion(this)">What design patterns are used?</button>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="btn-new-upload" onclick="newUpload()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Upload
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CHAT AREA -->
+  <main class="chat-main">
+
+    <!-- CHAT HEADER -->
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <button class="sidebar-toggle" onclick="toggleSidebar()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div>
+          <h2 class="chat-title">Ask Your Codebase</h2>
+          <p class="chat-subtitle" id="chatSubtitle">Loading session...</p>
+        </div>
+      </div>
+      <div class="chat-header-right">
+        <div class="model-badge" id="modelBadge">
+          <span class="model-dot"></span>
+          <span id="modelName">AI Ready</span>
+        </div>
+        <button class="btn-clear" onclick="clearChat()" title="Clear chat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="messages-area" id="messagesArea">
+      <!-- Welcome message -->
+      <div class="welcome-msg" id="welcomeMsg">
+        <div class="welcome-icon">⬡</div>
+        <h3>Ready to explore your code!</h3>
+        <p>Ask anything about your codebase. I'll find the relevant code and explain it in plain English.</p>
+      </div>
+    </div>
+
+    <!-- CHAT INPUT -->
+    <div class="chat-input-area">
+      <div class="chat-input-wrap">
+        <textarea
+          id="chatInput"
+          class="chat-input"
+          placeholder="Ask anything about your code..."
+          rows="1"
+          onkeydown="handleInputKeydown(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+      <p class="input-hint">Press <kbd>Enter</kbd> to send, <kbd>Shift+Enter</kbd> for new line</p>
+    </div>
+
+  </main>
+
+  <!-- TOAST -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/chat.js"></script>
+</body>
+</html>

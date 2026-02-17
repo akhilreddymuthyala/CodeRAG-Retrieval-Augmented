@@ -1,0 +1,38 @@
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Vector Database
+chromadb==0.4.15
+
+# Redis
+redis==5.0.1
+hiredis==2.2.3
+
+# AI/ML - OpenRouter Integration
+openai==1.3.0  # Compatible with OpenRouter API
+httpx==0.25.2  # For direct HTTP calls
+sentence-transformers==2.2.2
+torch==2.1.0
+
+# Code Parsing
+tree-sitter==0.20.4
+tree-sitter-python==0.21.0
+tree-sitter-javascript==0.21.0
+
+
+# Git Operations
+GitPython==3.1.40
+
+# Utilities
+python-dotenv==1.0.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+aiofiles==23.2.1
+tenacity==8.2.3
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0

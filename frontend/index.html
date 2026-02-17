@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeRAG — Codebase Explainer for Developers</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⬡</span>
+        <div>
+          <span class="logo-title">CodeRAG</span>
+          <span class="logo-sub">Retrieval-Augmented Codebase Explainer</span>
+        </div>
+      </div>
+      <div class="header-badge">
+        <span class="badge-dot"></span>
+        <span id="serverStatus">Connecting...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="hero-tag">For Developers</div>
+      <h1 class="hero-title">
+        Understand Any<br>
+        <span class="hero-highlight">Codebase Instantly</span>
+      </h1>
+      <p class="hero-desc">
+        Upload your code or paste a GitHub URL. Ask questions in plain English.<br>
+        Get AI-powered explanations powered by RAG technology.
+      </p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">100+</span><span class="stat-label">Languages</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">FREE</span><span class="stat-label">Embeddings</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">RAG</span><span class="stat-label">Powered</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UPLOAD SECTION -->
+  <section class="upload-section">
+    <div class="container">
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab active" data-tab="zip" onclick="switchTab('zip')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Upload ZIP
+        </button>
+        <button class="tab" data-tab="github" onclick="switchTab('github')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          GitHub URL
+        </button>
+      </div>
+
+      <!-- ZIP TAB -->
+      <div class="tab-panel active" id="tab-zip">
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+          <div class="drop-icon">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <p class="drop-title">Drop your ZIP file here</p>
+          <p class="drop-hint">or click to browse &nbsp;·&nbsp; Max 100MB</p>
+          <input type="file" id="fileInput" accept=".zip" style="display:none" onchange="handleFileSelect(event)" />
+        </div>
+        <div class="selected-file" id="selectedFile" style="display:none">
+          <span class="file-icon">📦</span>
+          <span id="fileName">file.zip</span>
+          <button class="file-remove" onclick="clearFile()">✕</button>
+        </div>
+        <button class="btn-primary" id="uploadBtn" onclick="uploadZip()" disabled>
+          <span class="btn-text">Upload & Analyze</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+
+      <!-- GITHUB TAB -->
+      <div class="tab-panel" id="tab-github">
+        <div class="form-group">
+          <label class="form-label">Repository URL</label>
+          <div class="input-wrap">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <input type="text" id="repoUrl" class="form-input" placeholder="https://github.com/username/repository" oninput="validateGithubInput()" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Branch <span class="optional">(optional)</span></label>
+          <div class="input-wrap">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+            <input type="text" id="branchName" class="form-input" placeholder="main" value="main" />
+          </div>
+        </div>
+        <button class="btn-primary" id="githubBtn" onclick="uploadGithub()" disabled>
+          <span class="btn-text">Clone & Analyze</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROGRESS OVERLAY -->
+  <div class="overlay" id="progressOverlay" style="display:none">
+    <div class="progress-card">
+      <div class="progress-spinner"></div>
+      <h3 class="progress-title" id="progressTitle">Uploading...</h3>
+      <p class="progress-sub" id="progressSub">Please wait while we process your codebase</p>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="progress-steps">
+        <div class="step" id="step1">
+          <span class="step-dot active"></span>
+          <span>Uploading</span>
+        </div>
+        <div class="step" id="step2">
+          <span class="step-dot"></span>
+          <span>Parsing</span>
+        </div>
+        <div class="step" id="step3">
+          <span class="step-dot"></span>
+          <span>Indexing</span>
+        </div>
+        <div class="step" id="step4">
+          <span class="step-dot"></span>
+          <span>Ready</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/upload.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

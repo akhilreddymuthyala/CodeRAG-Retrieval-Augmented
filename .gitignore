@@ -1,0 +1,42 @@
+# ===== Secrets =====
+.env
+*.env
+
+# ===== Python =====
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# ===== Virtual Environment =====
+.venv/
+venv/
+env/
+
+# ===== RAG / Vector DB (VERY IMPORTANT) =====
+backend/chroma_db/
+chroma_db/
+
+# ===== Logs =====
+logs/
+*.log
+
+# ===== Temp / Cache =====
+.cache/
+tmp/
+temp/
+
+# ===== OS Files =====
+.DS_Store
+Thumbs.db
+
+# ===== VS Code =====
+.vscode/
+
+# ===== Redis Dump (if generated) =====
+*.rdb
+
+# ===== Node (if frontend tools added later) =====
+node_modules/
+dist/
